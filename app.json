@@ -44,6 +44,14 @@
     "GIT_TOKEN": {
       "description": "Git token if github repository is private (optional)",
       "default": ""
+    },
+    "MNEMONIC": {
+      "description": "Enter escrow wallet 24 words phrase",
+      "required": true
+    },
+    "TONCENTER_API_KEY": {
+      "description": "Enter Toncenter Api Key",
+      "required": true
     }
   }
 }
