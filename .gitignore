@@ -1,0 +1,17 @@
+# Ignore Directories
+cache/
+downloads/
+__pycache__/
+test/
+.venv/
+.env/
+.git/
+
+# Ignore Files
+data.json
+MABot.log
+UPDATES.md
+*.pyc
+*.env
+*.session
+*.session-journal

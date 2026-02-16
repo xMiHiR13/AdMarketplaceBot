@@ -1,0 +1,10 @@
+aiohttp
+gitpython
+motor==3.4.0
+psutil
+pymongo==4.8.0
+kurigram
+python-dotenv
+speedtest-cli
+TgCrypto
+tonutils

@@ -1,0 +1,49 @@
+{
+  "name": "AdMarketplaceBot",
+  "keywords": ["Builders", "Telegram", "AdMarketplaceBot"],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "API_ID": {
+      "description": "Api Id obtained from my.telegram.org",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Api Hash obtained from my.telegram.org",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Bot Token of The Bot Obtained from ( @BotFather )",
+      "required": true
+    },
+    "MONGO_URL": {
+      "description": "MongoDB URL",
+      "required": true
+    },
+    "DB_NAME": {
+      "description": "MongoDB Database Name",
+      "default": "TgAdMarketplace",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Telegram user id who can manage bot",
+      "required": true
+    },
+    "ADS_CHANNEL": {
+      "description": "Ads channel to save ads for scheduling",
+      "default": "-1003842062286",
+      "required": true
+    },
+    "UPSTREAM_REPO": {
+      "description": "Github repository link",
+      "default": "https://github.com/xMiHiR13/AdMarketplaceBot"
+    },
+    "GIT_TOKEN": {
+      "description": "Git token if github repository is private (optional)",
+      "default": ""
+    }
+  }
+}
