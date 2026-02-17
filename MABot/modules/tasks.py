@@ -78,7 +78,10 @@ async def post_deal_ads_task():
                     LOGGER(__name__).info(f"Posting due deal {deal_id} (on time or slightly late)")
 
             try:
-                sent_message = await app.copy_message(chat_id, int(ad['chatId']), int(ad['messageId']))
+                if deal['adType'] == "post":
+                    sent_message = await app.copy_message(chat_id, int(ad['chatId']), int(ad['messageId']))
+                else:
+                    sent_message = await app.forward_messages(chat_id, int(ad['chatId']), int(ad['messageId']))
             except Exception as posting_exc:
                 await DealsCol.update_one(
                     {"_id": ObjectId(deal["_id"])},
