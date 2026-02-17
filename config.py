@@ -11,8 +11,8 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 MONGO_URL = getenv("MONGO_URL")
 DB_NAME = getenv("DB_NAME", "TgAdMarketplace")
 
-MAIN_APP_DOMAIN = "http://localhost:3000"
-MAIN_APP_API_KEY = "80f7d66c65b55ab088231e72a55f6a97c1885342f3fbe79f1ed7864de85b968f"
+MAIN_APP_DOMAIN = getenv("MAIN_APP_DOMAIN")
+MAIN_APP_API_KEY = getenv("MAIN_APP_API_KEY")
 
 OWNER_ID = int(getenv("OWNER_ID"))
 MODS_USERS = []  # List of moderators
