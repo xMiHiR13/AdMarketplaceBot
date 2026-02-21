@@ -3,7 +3,6 @@ from config import MNEMONIC, TONCENTER_API_KEY, IS_TESTNET
 from decimal import Decimal
 from datetime import datetime
 
-from MABot.logging import LOGGER
 from MABot.core.mongo import PaymentsCol
 
 from tonutils.wallet import WalletV5R1
@@ -11,6 +10,19 @@ from tonutils.client import ToncenterV3Client
 
 FEE_DEDUCT_TON = Decimal('0.005')
 FEE_DEDUCT_NANO = int(FEE_DEDUCT_TON * 1_000_000_000)
+
+class TonPaymentError(Exception):
+    """Base exception for TON payment failures."""
+    pass
+
+class LowBalanceError(TonPaymentError):
+    pass
+
+class AmountTooSmallError(TonPaymentError):
+    pass
+
+class InsufficientReserveError(TonPaymentError):
+    pass
 
 async def send_ton(
     deal_id: str,
@@ -31,19 +43,18 @@ async def send_ton(
     desired_nano = int(amount * 1_000_000_000)
     send_nano = desired_nano - FEE_DEDUCT_NANO
 
-    balance_nano = await wallet.get_balance(client, sender_address)
+    balance = await wallet.get_balance(client, sender_address)
+    balance_nano = int(balance * 1_000_000_000)
+
     if balance_nano < desired_nano:
-        LOGGER(__name__).error("Low balance")
-        return None
+        raise LowBalanceError("Wallet balance is lower than requested amount")
     
     if send_nano <= 0:
-        LOGGER(__name__).error("Amount too small to cover fee")
-        return None
+        raise AmountTooSmallError("Amount too small to cover fee")
 
     # Check tx can be sent
-    if balance_nano < send_nano + 50_000_000:  # some reserve
-        LOGGER(__name__).error("Not enough balance")
-        return None
+    # if balance_nano < send_nano + 50_000_000:  # some reserve
+    #     raise InsufficientReserveError("Not enough balance for reserve")
 
 
     try:
@@ -68,5 +79,4 @@ async def send_ton(
 
         return tx_hash
     except Exception as e:
-        LOGGER(__name__).error(f"Failed to send TON Payment: {str(e)}")
-        return
+        raise TonPaymentError(f"Failed to send TON Payment: {e}") from e
